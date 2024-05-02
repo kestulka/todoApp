@@ -26,6 +26,7 @@ export interface Task {
 export interface TaskTableProps {
   tasks: Task[];
   fetchTasks: () => void;
+  status: string;
 }
 
 // Update task
@@ -41,4 +42,12 @@ export interface UpdateTaskModalProps {
   task: Task;
   onClose: () => void;
   onUpdate: () => void;
+}
+
+// Tasks categories
+
+export interface CategorizedTasks {
+  pending: Task[];
+  completed: Task[];
+  canceled: Task[];
 }

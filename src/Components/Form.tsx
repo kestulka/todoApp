@@ -1,11 +1,12 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { FormData, FormProps } from "../interfaces/FormInterfaces";
+import styles from "../Styles/Form.module.css";
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [priority, setPriority] = useState<string>("default");
-  const [status, setStatus] = useState<string>("default");
+  const [priority, setPriority] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -13,8 +14,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     onSubmit(data);
     setTitle("");
     setDescription("");
-    setPriority("default");
-    setStatus("default");
+    setPriority("");
+    setStatus("");
   };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -34,10 +35,14 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <>
+      <header>
+        <h1>TODO APP</h1>
+        <p>Get things done!</p>
+      </header>
+      <form className={styles["add-task-form"]} onSubmit={handleSubmit}>
         <label>
-          Title
+          Title:
           <input
             type="text"
             name="title"
@@ -46,7 +51,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           />
         </label>
         <label>
-          Description
+          Description:
           <input
             type="text"
             name="description"
@@ -55,28 +60,26 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           />
         </label>
         <label>
-          Priority
+          Priority:
           <select
             id="priority"
             name="priority"
             value={priority}
             onChange={handlePriorityChange}
           >
-            <option value="default">Choose the priority of your task</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
         </label>
         <label>
-          Status
+          Status:
           <select
             id="status"
             name="status"
             value={status}
             onChange={handleStatusChange}
           >
-            <option value="default">Choose status of your task</option>
             <option value="pending">Pending</option>
             <option value="completed">Completed</option>
             <option value="canceled">Canceled</option>
@@ -84,7 +87,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
         </label>
         <button type="submit">Add task</button>
       </form>
-    </div>
+    </>
   );
 };
 

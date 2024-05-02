@@ -3,7 +3,7 @@ import { Task, TaskTableProps } from "../interfaces/FormInterfaces";
 import UpdateTaskModal from "../Components/UpdateTaskModal";
 import { FaCheck } from "react-icons/fa";
 
-const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks }) => {
+const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks, status }) => {
   const handleMarkAsCompleted = async (id: number) => {
     const response = await fetch(`http://localhost:3000/tasks/${id}`, {
       method: "PUT",
@@ -45,6 +45,13 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks }) => {
 
   return (
     <>
+      <h2>{status} Tasks</h2>
+      <table>
+        <thead>
+          <tr>a</tr>
+        </thead>
+        <tbody>b</tbody>
+      </table>
       <table>
         <thead>
           <tr>
@@ -57,7 +64,14 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks }) => {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <tr key={task.id}>
+            <tr
+              key={task.id}
+              // jei completed braukia eilutes
+              style={{
+                textDecoration:
+                  task.status === "completed" ? "line-through" : "none",
+              }}
+            >
               <td>{task.title}</td>
               <td>{task.description}</td>
               <td>{task.priority}</td>
