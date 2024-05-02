@@ -18,7 +18,7 @@ const connectDB = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-// kol kas paleidziama su komanda:  npx tsx ./server.ts
+//! kol kas paleidziama su komanda:  npx tsx ./server.ts
 
 // POST
 

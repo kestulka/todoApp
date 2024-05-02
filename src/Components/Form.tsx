@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { FormData, FormProps } from "../interfaces/formInterfaces";
+import { FormData, FormProps } from "../interfaces/FormInterfaces";
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const [title, setTitle] = useState<string>("");
