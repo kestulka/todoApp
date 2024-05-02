@@ -14,8 +14,9 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     onSubmit(data);
     setTitle("");
     setDescription("");
-    setPriority("");
-    setStatus("");
+    //? Padarius kaip tuscius stringus (""), neisiraso i db
+    setPriority("default");
+    setStatus("default");
   };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -67,6 +68,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             value={priority}
             onChange={handlePriorityChange}
           >
+            <option value="default">Select the priority of your task</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
@@ -80,6 +82,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             value={status}
             onChange={handleStatusChange}
           >
+            <option value="default">Select the status of your task</option>
             <option value="pending">Pending</option>
             <option value="completed">Completed</option>
             <option value="canceled">Canceled</option>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Task, TaskTableProps } from "../interfaces/FormInterfaces";
 import UpdateTaskModal from "../Components/UpdateTaskModal";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
 
 const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks, status }) => {
   const handleMarkAsCompleted = async (id: number) => {
@@ -44,14 +44,8 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks, status }) => {
   };
 
   return (
-    <>
+    <div>
       <h2>{status} Tasks</h2>
-      <table>
-        <thead>
-          <tr>a</tr>
-        </thead>
-        <tbody>b</tbody>
-      </table>
       <table>
         <thead>
           <tr>
@@ -80,8 +74,12 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks, status }) => {
                 <button onClick={() => handleMarkAsCompleted(task.id)}>
                   <FaCheck />
                 </button>
-                <button onClick={() => handleDelete(task.id)}>Delete</button>
-                <button onClick={() => handleOpenModal(task)}>Edit</button>
+                <button onClick={() => handleDelete(task.id)}>
+                  <FaTrash />
+                </button>
+                <button onClick={() => handleOpenModal(task)}>
+                  <FaEdit />
+                </button>
               </td>
             </tr>
           ))}
@@ -94,7 +92,7 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks, status }) => {
           onUpdate={fetchTasks}
         />
       )}
-    </>
+    </div>
   );
 };
 

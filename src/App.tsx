@@ -34,8 +34,10 @@ function App() {
         const errMsg = await response.text();
         throw new Error(`Failed to fetch tasks: ${errMsg}`);
       }
-    } catch (error) {
-      console.error("Error:", error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+      }
     }
   };
 
@@ -55,8 +57,10 @@ function App() {
       }
       console.log("Task added successfully");
       await fetchTasks();
-    } catch (error) {
-      console.error("Error:", error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+      }
     }
   };
 
@@ -67,21 +71,23 @@ function App() {
   return (
     <>
       <Form onSubmit={handleSubmit} />
-      <TaskTable
-        status="Pending"
-        tasks={tasks.pending}
-        fetchTasks={fetchTasks}
-      />
-      <TaskTable
-        status="Completed"
-        tasks={tasks.completed}
-        fetchTasks={fetchTasks}
-      />
-      <TaskTable
-        status="Canceled"
-        tasks={tasks.canceled}
-        fetchTasks={fetchTasks}
-      />
+      <div style={{ display: "inline-flex" }}>
+        <TaskTable
+          status="Pending"
+          tasks={tasks.pending}
+          fetchTasks={fetchTasks}
+        />
+        <TaskTable
+          status="Completed"
+          tasks={tasks.completed}
+          fetchTasks={fetchTasks}
+        />
+        <TaskTable
+          status="Canceled"
+          tasks={tasks.canceled}
+          fetchTasks={fetchTasks}
+        />
+      </div>
     </>
   );
 }
