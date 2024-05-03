@@ -1,0 +1,22 @@
+.pending-table {
+  box-shadow: 0px 0px 5px 5px yellow;
+  margin: 2em;
+}
+
+.completed-table {
+  box-shadow: 0px 0px 5px 5px green;
+  margin: 2em;
+}
+
+.canceled-table {
+  box-shadow: 0px 0px 5px 5px red;
+  margin: 2em;
+}
+
+.title-row {
+  background-color: rgb(75, 72, 71);
+}
+
+.table-data-row {
+  background-color: #121212;
+}

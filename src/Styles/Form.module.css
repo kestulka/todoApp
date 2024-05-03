@@ -9,3 +9,17 @@
   padding: 1rem;
   margin: 1rem;
 }
+
+input {
+  margin: 1em;
+  height: 20px;
+}
+
+select {
+  margin: 1em;
+  height: 30px;
+}
+
+button {
+  margin: 0.25em;
+}

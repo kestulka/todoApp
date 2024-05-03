@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Task, TaskTableProps } from "../interfaces/FormInterfaces";
 import UpdateTaskModal from "../Components/UpdateTaskModal";
 import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
+import styles from "../Styles/TaskTable.module.css";
 
 const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks, status }) => {
   const handleMarkAsCompleted = async (id: number) => {
@@ -43,12 +44,18 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks, status }) => {
     }
   };
 
+  // Sudetingas approachas norint stilizuoti kiekviena table skirtingai:
+  // sujungiami du stringai ir padaromas vienas classname
+  const tableClassName = `${styles["task-table"]} ${
+    styles[status.toLowerCase() + "-table"]
+  }`;
+
   return (
     <div>
       <h2>{status} Tasks</h2>
-      <table>
+      <table className={tableClassName}>
         <thead>
-          <tr>
+          <tr className={styles["title-row"]}>
             <th>Title</th>
             <th>Description</th>
             <th>Priority</th>
@@ -59,6 +66,7 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks, status }) => {
         <tbody>
           {tasks.map((task) => (
             <tr
+              className={styles["table-data-row"]}
               key={task.id}
               // jei completed braukia eilutes
               style={{
