@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "./Components/Form";
 import { FormData, Task } from "./interfaces/FormInterfaces";
 import TaskTable from "./Components/TaskTable";
