@@ -1,48 +1,66 @@
 import { useEffect, useState } from "react";
 import Form from "./Components/Form";
-import { FormData, Task } from "./interfaces/FormInterfaces";
 import TaskTable from "./Components/TaskTable";
-import "./App.css";
+import { FormData, Task, CategorizedTasks } from "./interfaces/FormInterfaces";
+import "../src/Styles/main.css";
 
 function App() {
-  // GET TASKS FROM DB
-
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<CategorizedTasks>({
+    pending: [],
+    completed: [],
+    canceled: [],
+  });
 
   const fetchTasks = async () => {
     try {
       const response = await fetch(`http://localhost:3000/tasks/all`);
       if (response.ok) {
-        const data = await response.json();
-        setTasks(data);
+        const data = (await response.json()) as Task[];
+        const categorizedTasks: CategorizedTasks = {
+          pending: [],
+          completed: [],
+          canceled: [],
+        };
+        data.forEach((task) => {
+          if (task.status in categorizedTasks) {
+            // This check ensures you're only accessing known properties
+            categorizedTasks[
+              task.status.toLowerCase() as keyof CategorizedTasks
+            ].push(task);
+          }
+        });
+        setTasks(categorizedTasks);
       } else {
-        throw new Error("Failed to fetch tasks");
+        const errMsg = await response.text();
+        throw new Error(`Failed to fetch tasks: ${errMsg}`);
       }
-    } catch (error) {
-      console.error("Error: ", error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+      }
     }
   };
 
-  // POST TO DB
   const handleSubmit = async (data: FormData) => {
-    // kad veiktu vanilla fetchas, butina naudoti async funkcija
-    const response = await fetch(`http://localhost:3000/tasks`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (response.ok) {
-      fetchTasks();
-    }
-    if (!response.ok) {
-      const message = await response.text();
-      console.error(`Failed to create task: `, message);
-    } else {
-      console.log("Task added sucessfully");
-      const result = await response.json();
-      console.log(result);
+    try {
+      const response = await fetch(`http://localhost:3000/tasks`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errMsg = await response.text();
+        throw new Error(`Failed to create task: ${errMsg}`);
+      }
+      console.log("Task added successfully");
+      await fetchTasks();
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+      }
     }
   };
 
@@ -53,7 +71,23 @@ function App() {
   return (
     <>
       <Form onSubmit={handleSubmit} />
-      <TaskTable tasks={tasks} fetchTasks={fetchTasks} />
+      <div style={{ display: "inline-flex" }}>
+        <TaskTable
+          status="Pending"
+          tasks={tasks.pending}
+          fetchTasks={fetchTasks}
+        />
+        <TaskTable
+          status="Completed"
+          tasks={tasks.completed}
+          fetchTasks={fetchTasks}
+        />
+        <TaskTable
+          status="Canceled"
+          tasks={tasks.canceled}
+          fetchTasks={fetchTasks}
+        />
+      </div>
     </>
   );
 }

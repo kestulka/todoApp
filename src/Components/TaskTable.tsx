@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Task, TaskTableProps } from "../interfaces/FormInterfaces";
 import UpdateTaskModal from "../Components/UpdateTaskModal";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
+import styles from "../Styles/TaskTable.module.css";
 
-const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks }) => {
+const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks, status }) => {
   const handleMarkAsCompleted = async (id: number) => {
     const response = await fetch(`http://localhost:3000/tasks/${id}`, {
       method: "PUT",
@@ -43,11 +44,18 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks }) => {
     }
   };
 
+  // Sudetingas approachas norint stilizuoti kiekviena table skirtingai:
+  // sujungiami du stringai ir padaromas vienas classname
+  const tableClassName = `${styles["task-table"]} ${
+    styles[status.toLowerCase() + "-table"]
+  }`;
+
   return (
-    <>
-      <table>
+    <div>
+      <h2>{status} Tasks</h2>
+      <table className={tableClassName}>
         <thead>
-          <tr>
+          <tr className={styles["title-row"]}>
             <th>Title</th>
             <th>Description</th>
             <th>Priority</th>
@@ -57,7 +65,15 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks }) => {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <tr key={task.id}>
+            <tr
+              className={styles["table-data-row"]}
+              key={task.id}
+              // jei completed braukia eilutes
+              style={{
+                textDecoration:
+                  task.status === "completed" ? "line-through" : "none",
+              }}
+            >
               <td>{task.title}</td>
               <td>{task.description}</td>
               <td>{task.priority}</td>
@@ -66,8 +82,12 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks }) => {
                 <button onClick={() => handleMarkAsCompleted(task.id)}>
                   <FaCheck />
                 </button>
-                <button onClick={() => handleDelete(task.id)}>Delete</button>
-                <button onClick={() => handleOpenModal(task)}>Edit</button>
+                <button onClick={() => handleDelete(task.id)}>
+                  <FaTrash />
+                </button>
+                <button onClick={() => handleOpenModal(task)}>
+                  <FaEdit />
+                </button>
               </td>
             </tr>
           ))}
@@ -80,7 +100,7 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, fetchTasks }) => {
           onUpdate={fetchTasks}
         />
       )}
-    </>
+    </div>
   );
 };
 
