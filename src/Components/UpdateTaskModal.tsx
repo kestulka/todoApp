@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Task, UpdateTaskModalProps } from "../interfaces/FormInterfaces";
+import { UpdateTaskModalProps } from "../interfaces/FormInterfaces";
 
 const updateTaskModal: React.FC<UpdateTaskModalProps> = ({
   task,
