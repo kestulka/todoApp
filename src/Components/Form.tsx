@@ -14,7 +14,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     onSubmit(data);
     setTitle("");
     setDescription("");
-    //? Padarius kaip tuscius stringus (""), neisiraso i db
+    // Padarius kaip tuscius stringus (""), neisiraso i db
     setPriority("default");
     setStatus("default");
   };
