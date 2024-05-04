@@ -18,6 +18,15 @@ const connectDB = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
+// svarbi kodo dalis (padejo surasti kodel nebuvo fetchinami duomenys)
+connectDB.connect((error) => {
+  if (error) {
+    console.error("Error connecting to database: ", error);
+    process.exit(1);
+  }
+  console.log("Connected to database");
+});
+
 //! kol kas paleidziama su komanda:  npx tsx ./server.ts
 
 // POST
